@@ -4,13 +4,13 @@
 
 (function ($) {
     $.toggleShowPassword = function (options) {
-        var settings = $.extend({
+        const settings = $.extend({
             field: "#password",
             control: "#toggle_show_password",
         }, options);
 
-        var control = $(settings.control);
-        var field = $(settings.field)
+        const control = $(settings.control);
+        const field = $(settings.field);
 
         control.bind('click', function () {
             if (control.is(':checked')) {
@@ -44,7 +44,7 @@
 }(jQuery));
 
 $(document).ready(function() {
-    var confirm = function() {
+    const confirm = function () {
         bootbox.confirm({
             title: "Appointment Confirmation",
             message: "Do you really want to schedule this appointment?",
