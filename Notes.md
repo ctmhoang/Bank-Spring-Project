@@ -23,3 +23,15 @@
   * th:value="{value}" -> binding to variable specifies initial value -> name must have value sames as model field 
   <br> -> or thymeleaf page will fall back to white label error page
   
+# Hibernate (Persistence Layer)
+* based on JPA specs
+* @Entity -> in SQL -> Need Primary Key
+* @Id -> Indicate Primary Key
+ * (GeneratedValue)[https://www.objectdb.com/java/jpa/entity/generated]
+* Relationship
+ * @ManyToOne 
+  * cascade
+  * (mappedBy)[https://www.baeldung.com/jpa-joincolumn-vs-mappedby] Association
+  * fetch
+* (@JoinColum)[https://www.baeldung.com/jpa-join-column] Own
+* @JsonIgnore
