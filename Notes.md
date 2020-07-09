@@ -9,6 +9,11 @@
   * Can specify the path (value) and the method 
    <br>Ex : ` @RequestMapping(value ="/signup", method = RequestMethod.GET)`
 * @ModelAttribute("variable name") retrieve variable from thymeleaf template page submitted by post
+* @Service -> registered as service beans
+* CrudRepository Class<Entity , ID> -> Help generate entity method by keyword
+* @Autowired (dependency injection) -> do not need to init
+
+
 
 
 
@@ -27,11 +32,14 @@
 * based on JPA specs
 * @Entity -> in SQL -> Need Primary Key
 * @Id -> Indicate Primary Key
- * (GeneratedValue)[https://www.objectdb.com/java/jpa/entity/generated]
+  * [GeneratedValue](https://www.objectdb.com/java/jpa/entity/generated)
 * Relationship
- * @ManyToOne 
-  * cascade
-  * (mappedBy)[https://www.baeldung.com/jpa-joincolumn-vs-mappedby] Association
-  * fetch
-* (@JoinColum)[https://www.baeldung.com/jpa-join-column] Own
+  * @ManyToOne 
+   * cascade
+   * [mappedBy](https://www.baeldung.com/jpa-joincolumn-vs-mappedby)
+   <br> Association
+   * fetch
+* [@JoinColum](https://www.baeldung.com/jpa-join-column) Own
 * @JsonIgnore
+* Some configs for hibernate view at application config file
+
