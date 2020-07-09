@@ -27,11 +27,13 @@
 * based on JPA specs
 * @Entity -> in SQL -> Need Primary Key
 * @Id -> Indicate Primary Key
- * (GeneratedValue)[https://www.objectdb.com/java/jpa/entity/generated]
+  * [GeneratedValue](https://www.objectdb.com/java/jpa/entity/generated)
 * Relationship
- * @ManyToOne 
-  * cascade
-  * (mappedBy)[https://www.baeldung.com/jpa-joincolumn-vs-mappedby] Association
-  * fetch
-* (@JoinColum)[https://www.baeldung.com/jpa-join-column] Own
+  * @ManyToOne 
+   * cascade
+   * [mappedBy](https://www.baeldung.com/jpa-joincolumn-vs-mappedby)
+   <br> Association
+   * fetch
+* [@JoinColum](https://www.baeldung.com/jpa-join-column) Own
 * @JsonIgnore
+* Some configs for hibernate view at application config file
