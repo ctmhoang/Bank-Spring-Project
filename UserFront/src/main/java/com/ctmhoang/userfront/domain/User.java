@@ -7,11 +7,12 @@ import java.util.List;
 
 
 @Entity
+@Table(name = "users")
 public class User
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user", nullable = false, updatable = false)
+    @Column(name = "usr", nullable = false, updatable = false)
     private Long usrID;
 
     private boolean enabled = true;
@@ -30,11 +31,11 @@ public class User
     @OneToOne
     private SavingsAccount saveAcc;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Appointment> appointmentList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Recipient> recipientList;
 
     public boolean isEnabled()

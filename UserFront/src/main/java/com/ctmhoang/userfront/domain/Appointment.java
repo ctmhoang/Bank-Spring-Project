@@ -18,7 +18,7 @@ public class Appointment
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User usr;
 
     public boolean isConfirmed()
     {
@@ -70,14 +70,14 @@ public class Appointment
         this.description = description;
     }
 
-    public User getUser()
+    public User getUsr()
     {
-        return user;
+        return usr;
     }
 
-    public void setUser(User user)
+    public void setUsr(User user)
     {
-        this.user = user;
+        this.usr = user;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Appointment
                 ", date=" + date +
                 ", location='" + location + '\'' +
                 ", description='" + description + '\'' +
-                ", user=" + user +
+                ", user=" + usr +
                 '}';
     }
 }

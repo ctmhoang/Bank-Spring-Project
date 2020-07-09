@@ -15,12 +15,12 @@ public class Recipient
     private String email;
     private String phone;
     private String accountNum;
-    private String desc;
+    private String description;
 
     @ManyToOne
-    @JoinColumn(name = "user_Id")
+    @JoinColumn(name = "usr_Id")
     @JsonIgnore
-    private User user;
+    private User usr;
 
     public Long getId()
     {
@@ -72,23 +72,23 @@ public class Recipient
         this.accountNum = accountNum;
     }
 
-    public String getDesc()
+    public String getDescription()
     {
-        return desc;
+        return description;
     }
 
-    public void setDesc(String desc)
+    public void setDescription(String desc)
     {
-        this.desc = desc;
+        this.description = desc;
     }
 
-    public User getUser()
+    public User getUsr()
     {
-        return user;
+        return usr;
     }
 
-    public void setUser(User user)
+    public void setUsr(User user)
     {
-        this.user = user;
+        this.usr = user;
     }
 }

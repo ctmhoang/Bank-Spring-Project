@@ -1,11 +1,8 @@
 package com.ctmhoang.userfront.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class SavingsTransaction
