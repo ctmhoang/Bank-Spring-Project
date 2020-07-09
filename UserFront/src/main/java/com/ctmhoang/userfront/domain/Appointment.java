@@ -1,16 +1,23 @@
 package com.ctmhoang.userfront.domain;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class Appointment
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private boolean confirmed;
 
-    private Long id;
     private Date date;
     private String location;
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public boolean isConfirmed()
@@ -71,5 +78,18 @@ public class Appointment
     public void setUser(User user)
     {
         this.user = user;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Appointment{" +
+                "confirmed=" + confirmed +
+                ", id=" + id +
+                ", date=" + date +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

@@ -1,14 +1,25 @@
 package com.ctmhoang.userfront.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+
+@Entity
 public class Recipient
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
     private String email;
     private String phone;
     private String accountNum;
     private String desc;
 
+    @ManyToOne
+    @JoinColumn(name = "user_Id")
+    @JsonIgnore
     private User user;
 
     public Long getId()

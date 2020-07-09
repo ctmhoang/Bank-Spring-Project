@@ -1,23 +1,40 @@
 package com.ctmhoang.userfront.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.List;
 
+
+@Entity
 public class User
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user", nullable = false, updatable = false)
+    private Long usrID;
+
     private boolean enabled = true;
 
-    private Long usrID;
     private String usrName;
     private String pwd;
     private String fstName;
     private String lstName;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     private String phone;
 
+    @OneToOne
     private PrimaryAccount primAcc;
+    @OneToOne
     private SavingsAccount saveAcc;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Appointment> appointmentList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Recipient> recipientList;
 
     public boolean isEnabled()

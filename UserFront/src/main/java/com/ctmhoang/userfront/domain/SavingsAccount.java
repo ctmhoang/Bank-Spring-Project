@@ -1,15 +1,24 @@
 package com.ctmhoang.userfront.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Entity
 public class SavingsAccount
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private int accNum;
 
-    private Long id;
     private BigDecimal accBal;
 
+    @OneToMany(mappedBy = "savAcc",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<SavingsTransaction> savingsTransactions;
 
     public int getAccNum()

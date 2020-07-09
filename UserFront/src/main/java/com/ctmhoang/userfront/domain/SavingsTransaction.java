@@ -1,16 +1,27 @@
 package com.ctmhoang.userfront.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+@Entity
 public class SavingsTransaction
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private Date date;
     private String description;
     private String type;
     private String status;
     private BigDecimal availBal;
+
+    @ManyToOne
+    @JoinColumn(name = "savings_account_id")
     private SavingsAccount savAcc;
 
     public SavingsTransaction()
