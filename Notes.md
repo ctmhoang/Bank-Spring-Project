@@ -9,6 +9,11 @@
   * Can specify the path (value) and the method 
    <br>Ex : ` @RequestMapping(value ="/signup", method = RequestMethod.GET)`
 * @ModelAttribute("variable name") retrieve variable from thymeleaf template page submitted by post
+* @Service -> registered as service beans
+* CrudRepository Class<Entity , ID> -> Help generate entity method by keyword
+* @Autowired (dependency injection) -> do not need to init
+
+
 
 
 
@@ -37,3 +42,4 @@
 * [@JoinColum](https://www.baeldung.com/jpa-join-column) Own
 * @JsonIgnore
 * Some configs for hibernate view at application config file
+
