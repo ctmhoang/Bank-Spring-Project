@@ -1,14 +1,22 @@
 package com.ctmhoang.userfront.domain;
 
+import com.ctmhoang.userfront.domain.security.Authority;
+import com.ctmhoang.userfront.domain.security.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
 @Table(name = "users")
-public class User
+public class User implements UserDetails
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,6 +46,47 @@ public class User
     @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Recipient> recipientList;
 
+    @OneToMany(mappedBy = "usr",cascade =CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private final Set<UserRole> userRoles = new HashSet<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities()
+    {
+        return userRoles.stream().map(userRole -> new Authority(userRole.getRole().getName())).collect(Collectors.toUnmodifiableSet());
+    }
+
+    @Override
+    public String getPassword()
+    {
+        return pwd;
+    }
+
+    @Override
+    public String getUsername()
+    {
+        return usrName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    @Override
     public boolean isEnabled()
     {
         return enabled;
@@ -46,6 +95,11 @@ public class User
     public void setEnabled(boolean enabled)
     {
         this.enabled = enabled;
+    }
+
+    public Set<UserRole> getUserRoles()
+    {
+        return userRoles;
     }
 
     public Long getUsrID()

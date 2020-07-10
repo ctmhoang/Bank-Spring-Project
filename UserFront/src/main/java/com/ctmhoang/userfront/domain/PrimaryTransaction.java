@@ -12,7 +12,7 @@ public class PrimaryTransaction
     private Long id;
 
     private double amount;
-
+    
     private Date date;
     private String description;
     private String type;
