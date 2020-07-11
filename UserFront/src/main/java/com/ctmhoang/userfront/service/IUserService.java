@@ -1,6 +1,9 @@
 package com.ctmhoang.userfront.service;
 
 import com.ctmhoang.userfront.domain.User;
+import com.ctmhoang.userfront.domain.security.UserRole;
+
+import java.util.Set;
 
 public interface IUserService
 {
@@ -15,4 +18,7 @@ public interface IUserService
     boolean checkEmailExists(String email);
 
     void save(User user);
+
+    User create(User user , Set<UserRole> userRoles);
+
 }

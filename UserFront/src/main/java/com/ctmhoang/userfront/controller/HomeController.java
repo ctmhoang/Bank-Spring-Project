@@ -1,6 +1,8 @@
 package com.ctmhoang.userfront.controller;
 
 import com.ctmhoang.userfront.domain.User;
+import com.ctmhoang.userfront.domain.security.UserRole;
+import com.ctmhoang.userfront.service.IRoleService;
 import com.ctmhoang.userfront.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,11 +11,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Set;
+
 @Controller
 public class HomeController
 {
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IRoleService roleService;
 
     //Spring known that used ThymeLeaf temp engine -> return automatically recognize as  template name
     @RequestMapping("/")
@@ -51,7 +58,8 @@ public class HomeController
         }
         else
         {
-            userService.save(user);
+            if(roleService.getUserRole() == null) roleService.createBasicRoles();
+            userService.create(user, Set.of(new UserRole(user, roleService.getUserRole())));
             return "redirect:/";
         }
     }

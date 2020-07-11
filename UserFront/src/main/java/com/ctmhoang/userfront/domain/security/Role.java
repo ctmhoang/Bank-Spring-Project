@@ -2,11 +2,16 @@ package com.ctmhoang.userfront.domain.security;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
 @Entity
 public class Role
 {
@@ -16,40 +21,15 @@ public class Role
     private String name;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
     @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
 
-    public Role()
-    {
-    }
 
-    public int getRoleId()
-    {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId)
+    public Role(int roleId, String name)
     {
         this.roleId = roleId;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
         this.name = name;
     }
 
-    public Set<UserRole> getUserRoles()
-    {
-        return userRoles;
-    }
-
-    public void setUserRoles(Set<UserRole> userRoles)
-    {
-        this.userRoles = userRoles;
-    }
 }

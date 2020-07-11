@@ -1,6 +1,6 @@
 package com.ctmhoang.userfront.config;
 
-import com.ctmhoang.userfront.service.UserServiceImpl.UserSecurityService;
+import com.ctmhoang.userfront.service.impl.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

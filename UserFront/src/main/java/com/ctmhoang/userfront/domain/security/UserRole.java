@@ -1,9 +1,11 @@
 package com.ctmhoang.userfront.domain.security;
 
 import com.ctmhoang.userfront.domain.User;
+import lombok.Data;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "usr_role")
 public class UserRole
@@ -30,31 +32,4 @@ public class UserRole
         this.role = role;
     }
 
-    public long getUserRoleId() {
-        return userRoleId;
-    }
-
-    public void setUserRoleId(long userRoleId) {
-        this.userRoleId = userRoleId;
-    }
-
-    public User getUsr()
-    {
-        return usr;
-    }
-
-    public void setUsr(User user)
-    {
-        this.usr = user;
-    }
-
-    public Role getRole()
-    {
-        return role;
-    }
-
-    public void setRole(Role role)
-    {
-        this.role = role;
-    }
 }
