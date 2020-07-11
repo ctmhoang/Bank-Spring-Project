@@ -14,6 +14,8 @@
 * @Autowired (dependency injection) -> do not need to init
 * Model .addAttribute
 * @Transactional ->  transaction method  -> roll back provided by spring and hibernate with database provided
+* @Repository fullfill DAO
+* entityManager.persist()
 
 
 
