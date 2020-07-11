@@ -12,6 +12,8 @@
 * @Service -> registered as service beans
 * CrudRepository Class<Entity , ID> -> Help generate entity method by keyword
 * @Autowired (dependency injection) -> do not need to init
+* Model .addAttribute
+* @Transactional ->  transaction method  -> roll back provided by spring and hibernate with database provided
 
 
 
@@ -42,4 +44,19 @@
 * [@JoinColum](https://www.baeldung.com/jpa-join-column) Own
 * @JsonIgnore
 * Some configs for hibernate view at application config file
+
+# Spring security
+
+* @Configuration -> Class level -> configuration class
+* @EnableWebSecurity -> Enable Spring security
+* Abtract class WebSecurityConfigurerAdapter  -> Make it as an bean adapter for web security
+  * Rewite configure method
+* Enviroment 
+* SecureRandom
+* GrantedAuthority
+* need create authority roles and role with user
+* Interface  UserDetailService -> Load the user specific data -> Need UserDetailService Provider and Password Encoder in Authentication ManageBuild ->  Need UserDetails extend Object 
+ * LoadUserByUsername(String name must be same as in thymeleaf login form)
+* LOG in slf4
+* 
 
