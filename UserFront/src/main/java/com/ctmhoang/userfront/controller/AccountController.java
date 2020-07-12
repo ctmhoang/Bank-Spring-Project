@@ -48,4 +48,20 @@ public class AccountController {
     accountService.deposit(type, Double.parseDouble(amount), principal);
     return "redirect:/account";
   }
+
+  @RequestMapping(value = "/withdraw", method = RequestMethod.GET)
+  public String withdraw(Model model) {
+    model.addAttribute("accountType");
+    model.addAttribute("amount");
+    return "withdraw";
+  }
+
+  @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
+  public String withdrawPOST(
+      @ModelAttribute("amount") String amount,
+      @ModelAttribute("accountType") String type,
+      Principal principal) {
+    accountService.withdraw(type, Double.parseDouble(amount), principal);
+    return "redirect:/account";
+  }
 }

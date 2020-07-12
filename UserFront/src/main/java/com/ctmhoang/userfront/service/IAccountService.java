@@ -11,4 +11,6 @@ public interface IAccountService {
   SavingsAccount createSavingsAccount();
 
   void deposit(String type, double parseDouble, Principal principal);
+
+  void withdraw(String type, double parseDouble, Principal principal);
 }

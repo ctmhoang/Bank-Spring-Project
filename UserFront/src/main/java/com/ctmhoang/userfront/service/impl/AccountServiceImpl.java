@@ -69,7 +69,46 @@ public class AccountServiceImpl implements IAccountService {
               new SavingsTransaction(
                       parseDouble,
                       date,
-                      "Deposit from primary account",
+                      "Deposit from savings account",
+                      "Account",
+                      "Finished",
+                      savingsAccount.getAccBal(),
+                      savingsAccount);
+    }
+  }
+
+  @Override
+  public void withdraw(String type, double parseDouble, Principal principal)
+  {
+    User user = userService.findByUserName(principal.getName());
+    if (type.equalsIgnoreCase("Primary")) {
+      PrimaryAccount primaryAccount = user.getPrimAcc();
+      primaryAccount.setAccBal(primaryAccount.getAccBal().subtract(new BigDecimal(parseDouble)));
+      primaryAccountDao.save(primaryAccount);
+
+      Date date = new Date();
+
+      var primTrans =
+              new PrimaryTransaction(
+                      parseDouble,
+                      date,
+                      "Withdraw from primary account",
+                      "Account",
+                      "Finished",
+                      primaryAccount.getAccBal(),
+                      primaryAccount);
+    } else if (type.equalsIgnoreCase("Savings")) {
+      SavingsAccount savingsAccount = user.getSaveAcc();
+      savingsAccount.setAccBal(savingsAccount.getAccBal().subtract(new BigDecimal(parseDouble)));
+      savingsAccountDao.save(savingsAccount);
+
+      Date date = new Date();
+
+      var saveTrans =
+              new SavingsTransaction(
+                      parseDouble,
+                      date,
+                      "Withdraw from savings account",
                       "Account",
                       "Finished",
                       savingsAccount.getAccBal(),
