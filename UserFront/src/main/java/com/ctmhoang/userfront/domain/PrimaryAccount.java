@@ -11,18 +11,16 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-public class PrimaryAccount
-{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class PrimaryAccount {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    private int accNum;
+  private int accNum;
 
-    private BigDecimal accBal;
+  private BigDecimal accBal;
 
-    @OneToMany(mappedBy = "primAcc", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<PrimaryTransaction> primaryTransactionList;
-
+  @OneToMany(mappedBy = "primAcc", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JsonIgnore
+  private List<PrimaryTransaction> primaryTransactionList;
 }

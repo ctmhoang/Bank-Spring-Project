@@ -9,19 +9,18 @@ import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
-public class Appointment
-{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Appointment {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    private boolean confirmed;
+  private boolean confirmed;
 
-    private Date date;
-    private String location;
-    private String description;
+  private Date date;
+  private String location;
+  private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User usr;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User usr;
 }

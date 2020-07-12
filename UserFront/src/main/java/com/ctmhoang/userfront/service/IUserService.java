@@ -5,20 +5,18 @@ import com.ctmhoang.userfront.domain.security.UserRole;
 
 import java.util.Set;
 
-public interface IUserService
-{
-    User findByUserName(String userName);
+public interface IUserService {
+  User findByUserName(String userName);
 
-    User findByEmail(String email);
+  User findByEmail(String email);
 
-    boolean isUserExists(String name, String email);
+  boolean isUserExists(String name, String email);
 
-    boolean checkUserNameExists(String userName);
+  boolean checkUserNameExists(String userName);
 
-    boolean checkEmailExists(String email);
+  boolean checkEmailExists(String email);
 
-    void save(User user);
+  void save(User user);
 
-    User create(User user , Set<UserRole> userRoles);
-
+  User create(User user, Set<UserRole> userRoles);
 }

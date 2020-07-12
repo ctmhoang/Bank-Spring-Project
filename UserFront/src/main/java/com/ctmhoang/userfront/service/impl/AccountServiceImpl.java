@@ -12,38 +12,33 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 @Service
-public class AccountServiceImpl implements IAccountService
-{
-    @Autowired
-    private PrimaryAccountDao primaryAccountDao;
+public class AccountServiceImpl implements IAccountService {
+  @Autowired private PrimaryAccountDao primaryAccountDao;
 
-    @Autowired
-    private SavingsAccountDao savingsAccountDao;
+  @Autowired private SavingsAccountDao savingsAccountDao;
 
+  @Autowired private IUserService userService;
+  private static int nextAccNum = 11223145;
 
-    @Autowired
-    private IUserService userService;
-    private static int nextAccNum = 11223145;
+  @Override
+  public PrimaryAccount createPrimaryAccount() {
+    var primAcc = new PrimaryAccount();
+    primAcc.setAccBal(new BigDecimal(0.0));
+    primAcc.setAccNum(accGen());
+    primaryAccountDao.save(primAcc);
+    return primAcc;
+  }
 
-    @Override
-    public PrimaryAccount createPrimaryAccount()
-    {
-        var primAcc = new PrimaryAccount();
-        primAcc.setAccBal(new BigDecimal(0.0));
-        primAcc.setAccNum(accGen());
-        primaryAccountDao.save(primAcc);
-        return primAcc;
-    }
+  @Override
+  public SavingsAccount createSavingsAccount() {
+    var saveAcc = new SavingsAccount();
+    saveAcc.setAccBal(new BigDecimal(0.0));
+    saveAcc.setAccNum(accGen());
+    savingsAccountDao.save(saveAcc);
+    return saveAcc;
+  }
 
-    @Override
-    public SavingsAccount createSavingsAccount()
-    {
-        var saveAcc = new SavingsAccount();
-        saveAcc.setAccBal(new BigDecimal(0.0));
-        saveAcc.setAccNum(accGen());
-        savingsAccountDao.save(saveAcc);
-        return saveAcc;
-    }
-
-    private int accGen(){ return ++ nextAccNum;}
+  private int accGen() {
+    return ++nextAccNum;
+  }
 }

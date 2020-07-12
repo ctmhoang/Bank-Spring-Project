@@ -9,21 +9,19 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class Recipient
-{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Recipient {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    private String name;
-    private String email;
-    private String phone;
-    private String accountNum;
-    private String description;
+  private String name;
+  private String email;
+  private String phone;
+  private String accountNum;
+  private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "usr_Id")
-    @JsonIgnore
-    private User usr;
-
+  @ManyToOne
+  @JoinColumn(name = "usr_Id")
+  @JsonIgnore
+  private User usr;
 }
