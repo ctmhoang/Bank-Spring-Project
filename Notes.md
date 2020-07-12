@@ -60,5 +60,5 @@
 * Interface  UserDetailService -> Load the user specific data -> Need UserDetailService Provider and Password Encoder in Authentication ManageBuild ->  Need UserDetails extend Object 
  * LoadUserByUsername(String name must be same as in thymeleaf login form)
 * LOG in slf4
-* 
+* * [Principal class](https://stackoverflow.com/questions/37499307/whats-the-principal-in-spring-security)
 

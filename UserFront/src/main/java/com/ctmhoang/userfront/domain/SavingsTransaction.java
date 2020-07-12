@@ -15,6 +15,8 @@ public class SavingsTransaction {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
+  private double amount;
+
   private Date date;
   private String description;
   private String type;
@@ -26,6 +28,7 @@ public class SavingsTransaction {
   private SavingsAccount savAcc;
 
   public SavingsTransaction(
+      double amount,
       Date date,
       String description,
       String type,

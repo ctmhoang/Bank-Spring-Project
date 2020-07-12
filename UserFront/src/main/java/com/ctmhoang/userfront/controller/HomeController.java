@@ -4,6 +4,7 @@ import com.ctmhoang.userfront.domain.User;
 import com.ctmhoang.userfront.domain.security.UserRole;
 import com.ctmhoang.userfront.service.IRoleService;
 import com.ctmhoang.userfront.service.IUserService;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
 import java.util.Set;
 
 @Controller
@@ -52,5 +54,17 @@ public class HomeController {
       userService.create(user, Set.of(new UserRole(user, roleService.getUserRole())));
       return "redirect:/";
     }
+  }
+
+  @RequestMapping("/account")
+  public String userFront(Principal principal, Model model) {
+    User user = userService.findByUserName(principal.getName());
+    var primAcc = user.getPrimAcc();
+    var saveAcc = user.getSaveAcc();
+
+    model.addAttribute("primaryAccount", primAcc);
+    model.addAttribute("savingsAccount", saveAcc);
+
+    return "userFront";
   }
 }
