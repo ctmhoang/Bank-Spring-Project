@@ -1,9 +1,12 @@
 package com.ctmhoang.userfront.service.impl;
 
 import com.ctmhoang.userfront.dao.PrimaryAccountDao;
+import com.ctmhoang.userfront.dao.PrimaryTransactionDao;
 import com.ctmhoang.userfront.dao.SavingsAccountDao;
+import com.ctmhoang.userfront.dao.SavingsTransactionDao;
 import com.ctmhoang.userfront.domain.*;
 import com.ctmhoang.userfront.service.IAccountService;
+import com.ctmhoang.userfront.service.ITransactionService;
 import com.ctmhoang.userfront.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ public class AccountServiceImpl implements IAccountService {
   @Autowired private SavingsAccountDao savingsAccountDao;
 
   @Autowired private IUserService userService;
+
+  @Autowired private ITransactionService transactionService;
+
   private static int nextAccNum = 11223145;
 
   @Override
@@ -58,6 +64,7 @@ public class AccountServiceImpl implements IAccountService {
               "Finished",
               primaryAccount.getAccBal(),
               primaryAccount);
+      transactionService.savePrimaryDepositTransaction(primTrans);
     } else if (type.equalsIgnoreCase("Savings")) {
       SavingsAccount savingsAccount = user.getSaveAcc();
       savingsAccount.setAccBal(savingsAccount.getAccBal().add(new BigDecimal(parseDouble)));
@@ -66,20 +73,21 @@ public class AccountServiceImpl implements IAccountService {
       Date date = new Date();
 
       var saveTrans =
-              new SavingsTransaction(
-                      parseDouble,
-                      date,
-                      "Deposit from savings account",
-                      "Account",
-                      "Finished",
-                      savingsAccount.getAccBal(),
-                      savingsAccount);
+          new SavingsTransaction(
+              parseDouble,
+              date,
+              "Deposit from savings account",
+              "Account",
+              "Finished",
+              savingsAccount.getAccBal(),
+              savingsAccount);
+
+      transactionService.saveSavingsDepositTransaction(saveTrans);
     }
   }
 
   @Override
-  public void withdraw(String type, double parseDouble, Principal principal)
-  {
+  public void withdraw(String type, double parseDouble, Principal principal) {
     User user = userService.findByUserName(principal.getName());
     if (type.equalsIgnoreCase("Primary")) {
       PrimaryAccount primaryAccount = user.getPrimAcc();
@@ -89,14 +97,15 @@ public class AccountServiceImpl implements IAccountService {
       Date date = new Date();
 
       var primTrans =
-              new PrimaryTransaction(
-                      parseDouble,
-                      date,
-                      "Withdraw from primary account",
-                      "Account",
-                      "Finished",
-                      primaryAccount.getAccBal(),
-                      primaryAccount);
+          new PrimaryTransaction(
+              parseDouble,
+              date,
+              "Withdraw from primary account",
+              "Account",
+              "Finished",
+              primaryAccount.getAccBal(),
+              primaryAccount);
+//      primaryTransactionDao.save(primTrans);
     } else if (type.equalsIgnoreCase("Savings")) {
       SavingsAccount savingsAccount = user.getSaveAcc();
       savingsAccount.setAccBal(savingsAccount.getAccBal().subtract(new BigDecimal(parseDouble)));
@@ -105,14 +114,15 @@ public class AccountServiceImpl implements IAccountService {
       Date date = new Date();
 
       var saveTrans =
-              new SavingsTransaction(
-                      parseDouble,
-                      date,
-                      "Withdraw from savings account",
-                      "Account",
-                      "Finished",
-                      savingsAccount.getAccBal(),
-                      savingsAccount);
+          new SavingsTransaction(
+              parseDouble,
+              date,
+              "Withdraw from savings account",
+              "Account",
+              "Finished",
+              savingsAccount.getAccBal(),
+              savingsAccount);
+//      savingsTransactionDao.save(saveTrans);
     }
   }
 

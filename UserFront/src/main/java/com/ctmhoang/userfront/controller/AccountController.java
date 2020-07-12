@@ -1,7 +1,10 @@
 package com.ctmhoang.userfront.controller;
 
+import com.ctmhoang.userfront.domain.PrimaryTransaction;
+import com.ctmhoang.userfront.domain.SavingsTransaction;
 import com.ctmhoang.userfront.domain.User;
 import com.ctmhoang.userfront.service.IAccountService;
+import com.ctmhoang.userfront.service.ITransactionService;
 import com.ctmhoang.userfront.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/account")
@@ -19,17 +23,25 @@ public class AccountController {
 
   @Autowired private IAccountService accountService;
 
+  @Autowired private ITransactionService transactionService;
+
   @RequestMapping("/primaryAccount")
   public String primaryAcc(Model model, Principal principal) {
     User user = userService.findByUserName(principal.getName());
+    List<PrimaryTransaction> transactionList =
+        transactionService.findPrimaryTransactions(principal.getName());
     model.addAttribute("primaryAccount", user.getPrimAcc());
+    model.addAttribute("primaryTransactionList", transactionList);
     return "primaryAccount";
   }
 
   @RequestMapping("/savingsAccount")
   public String saveAcc(Model model, Principal principal) {
     User user = userService.findByUserName(principal.getName());
+    List<SavingsTransaction> transactionList =
+        transactionService.findSavingsTransactions(principal.getName());
     model.addAttribute("savingsAccount", user.getSaveAcc());
+    model.addAttribute("savingsTransactionList", transactionList);
     return "savingsAccount";
   }
 
