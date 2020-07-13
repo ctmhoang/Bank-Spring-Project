@@ -130,4 +130,46 @@ public class TransactionServiceImpl implements ITransactionService {
   public void deleteRecipientByName(String name) {
     recipientDao.deleteByName(name);
   }
+
+  @Override
+  public void transferTo(
+      Recipient recipient,
+      String type,
+      String amount,
+      PrimaryAccount primAcc,
+      SavingsAccount saveAcc) {
+    if (type.equalsIgnoreCase("Primary")) {
+      primAcc.setAccBal(primAcc.getAccBal().subtract(new BigDecimal(amount)));
+      primaryAccountDao.save(primAcc);
+
+      var date = new Date();
+      var primTrans =
+          new PrimaryTransaction(
+              Double.parseDouble(amount),
+              date,
+              "Transfer to recipient " + recipient.getName(),
+              "Transfer",
+              "Finished",
+              primAcc.getAccBal(),
+              primAcc);
+
+      primaryTransactionDao.save(primTrans);
+    } else if (type.equalsIgnoreCase("Savings")) {
+      saveAcc.setAccBal(saveAcc.getAccBal().subtract(new BigDecimal(amount)));
+      savingsAccountDao.save(saveAcc);
+
+      var date = new Date();
+      var saveTrans =
+          new PrimaryTransaction(
+              Double.parseDouble(amount),
+              date,
+              "Transfer to recipient " + recipient.getName(),
+              "Transfer",
+              "Finished",
+              primAcc.getAccBal(),
+              primAcc);
+
+      primaryTransactionDao.save(saveTrans);
+    }
+  }
 }

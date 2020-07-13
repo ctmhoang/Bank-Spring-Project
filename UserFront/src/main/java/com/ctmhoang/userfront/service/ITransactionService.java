@@ -33,4 +33,6 @@ public interface ITransactionService {
   Recipient findRecipientByName(String name);
 
   void deleteRecipientByName(String name);
+
+  void transferTo(Recipient recipient, String type, String amount, PrimaryAccount primAcc, SavingsAccount saveAcc);
 }

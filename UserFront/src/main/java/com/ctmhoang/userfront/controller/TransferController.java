@@ -6,7 +6,6 @@ import com.ctmhoang.userfront.service.ITransactionService;
 import com.ctmhoang.userfront.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,5 +84,26 @@ public class TransferController {
     model.addAttribute("recipient", recipient);
 
     return "recipient";
+  }
+
+  @RequestMapping(value = "/to", method = RequestMethod.GET)
+  public String transferTo(Model model, Principal principal) {
+    List<Recipient> recipientList = transactionService.findRecipients(principal);
+
+    model.addAttribute("recipientList", recipientList);
+    model.addAttribute("accountType");
+    return "transferTo";
+  }
+
+  @RequestMapping(value = "/to", method = RequestMethod.POST)
+  public String transferToPOST(
+      @ModelAttribute("recipientName") String name,
+      @ModelAttribute("accountType") String type,
+      @ModelAttribute("amount") String amount,
+      Principal principal) {
+    User user = userService.findByUserName(principal.getName());
+    Recipient recipient = transactionService.findRecipientByName(name);
+    transactionService.transferTo(recipient, type, amount, user.getPrimAcc(), user.getSaveAcc());
+    return "redirect:/account";
   }
 }
