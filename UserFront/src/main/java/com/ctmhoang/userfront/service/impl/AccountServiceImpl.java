@@ -105,7 +105,7 @@ public class AccountServiceImpl implements IAccountService {
               "Finished",
               primaryAccount.getAccBal(),
               primaryAccount);
-//      primaryTransactionDao.save(primTrans);
+      transactionService.saveWithdrawDepositTransaction(primTrans);
     } else if (type.equalsIgnoreCase("Savings")) {
       SavingsAccount savingsAccount = user.getSaveAcc();
       savingsAccount.setAccBal(savingsAccount.getAccBal().subtract(new BigDecimal(parseDouble)));
@@ -122,7 +122,7 @@ public class AccountServiceImpl implements IAccountService {
               "Finished",
               savingsAccount.getAccBal(),
               savingsAccount);
-//      savingsTransactionDao.save(saveTrans);
+      transactionService.saveWithdrawDepositTransaction(saveTrans);
     }
   }
 

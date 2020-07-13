@@ -11,4 +11,6 @@ public interface ITransactionService
     List<SavingsTransaction> findSavingsTransactions(String username);
     void savePrimaryDepositTransaction(PrimaryTransaction primaryTransaction);
     void saveSavingsDepositTransaction(SavingsTransaction savingsTransaction);
+    void saveWithdrawDepositTransaction(PrimaryTransaction primaryTransaction);
+    void saveWithdrawDepositTransaction(SavingsTransaction savingsTransaction);
 }
