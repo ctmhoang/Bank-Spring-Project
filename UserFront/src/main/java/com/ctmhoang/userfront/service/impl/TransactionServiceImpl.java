@@ -1,16 +1,15 @@
 package com.ctmhoang.userfront.service.impl;
 
-import com.ctmhoang.userfront.dao.PrimaryAccountDao;
-import com.ctmhoang.userfront.dao.SavingsAccountDao;
+import com.ctmhoang.userfront.dao.*;
 import com.ctmhoang.userfront.domain.*;
 import com.ctmhoang.userfront.service.ITransactionService;
 import com.ctmhoang.userfront.service.IUserService;
-import com.ctmhoang.userfront.dao.PrimaryTransactionDao;
-import com.ctmhoang.userfront.dao.SavingsTransactionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +25,8 @@ public class TransactionServiceImpl implements ITransactionService {
   @Autowired private PrimaryAccountDao primaryAccountDao;
 
   @Autowired private SavingsAccountDao savingsAccountDao;
+
+  @Autowired private RecipientDao recipientDao;
 
   @Override
   public List<PrimaryTransaction> findPrimaryTransactions(String username) {
@@ -65,13 +66,11 @@ public class TransactionServiceImpl implements ITransactionService {
       String to,
       PrimaryAccount primaryAccount,
       SavingsAccount savingsAccount,
-      String amount) throws Exception
-  {
+      String amount)
+      throws Exception {
     if (from.equalsIgnoreCase("Primary") && to.equalsIgnoreCase("Savings")) {
-      primaryAccount.setAccBal(
-          primaryAccount.getAccBal().subtract(new BigDecimal(amount)));
-      savingsAccount.setAccBal(
-          savingsAccount.getAccBal().add(new BigDecimal(amount)));
+      primaryAccount.setAccBal(primaryAccount.getAccBal().subtract(new BigDecimal(amount)));
+      savingsAccount.setAccBal(savingsAccount.getAccBal().add(new BigDecimal(amount)));
       primaryAccountDao.save(primaryAccount);
       savingsAccountDao.save(savingsAccount);
 
@@ -79,19 +78,17 @@ public class TransactionServiceImpl implements ITransactionService {
 
       PrimaryTransaction primaryTransaction =
           new PrimaryTransaction(
-                  Double.parseDouble(amount),
-                  date,
-                  "Between account transfer from " + from + " to " + to,
-                  "Transfer",
-                  "Finished",
-                  primaryAccount.getAccBal(),
-                  primaryAccount);
+              Double.parseDouble(amount),
+              date,
+              "Between account transfer from " + from + " to " + to,
+              "Transfer",
+              "Finished",
+              primaryAccount.getAccBal(),
+              primaryAccount);
       primaryTransactionDao.save(primaryTransaction);
     } else if (from.equalsIgnoreCase("Savings") && to.equalsIgnoreCase("Primary")) {
-      primaryAccount.setAccBal(
-          primaryAccount.getAccBal().add(new BigDecimal(amount)));
-      savingsAccount.setAccBal(
-          savingsAccount.getAccBal().subtract(new BigDecimal(amount)));
+      primaryAccount.setAccBal(primaryAccount.getAccBal().add(new BigDecimal(amount)));
+      savingsAccount.setAccBal(savingsAccount.getAccBal().subtract(new BigDecimal(amount)));
       primaryAccountDao.save(primaryAccount);
       savingsAccountDao.save(savingsAccount);
 
@@ -99,16 +96,38 @@ public class TransactionServiceImpl implements ITransactionService {
 
       SavingsTransaction savingsTransaction =
           new SavingsTransaction(
-                  Double.parseDouble(amount),
-                  date,
-                  "Between account transfer from " + from + " to " + to,
-                  "Transfer",
-                  "Finished",
-                  savingsAccount.getAccBal(),
-                  savingsAccount);
+              Double.parseDouble(amount),
+              date,
+              "Between account transfer from " + from + " to " + to,
+              "Transfer",
+              "Finished",
+              savingsAccount.getAccBal(),
+              savingsAccount);
       savingsTransactionDao.save(savingsTransaction);
     } else {
       throw new Exception("Invalid Transfer");
     }
+  }
+
+  @Override
+  public List<Recipient> findRecipients(Principal principal) {
+    User user = userService.findByUserName(principal.getName());
+    return recipientDao.findRecipientsByUsr(user);
+  }
+
+  @Override
+  public void saveRecipient(Recipient recipient) {
+    recipientDao.save(recipient);
+  }
+
+  @Override
+  public Recipient findRecipientByName(String name) {
+    return recipientDao.findRecipientByName(name);
+  }
+
+  @Override
+  @Transactional
+  public void deleteRecipientByName(String name) {
+    recipientDao.deleteByName(name);
   }
 }

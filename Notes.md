@@ -17,6 +17,7 @@
 - @Transactional -> transaction method -> roll back provided by spring and hibernate with database provided
 - @Repository fullfill DAO
 - entityManager.persist()
+- @RequestParam
 
 # Thymeleaf Syntax
 
