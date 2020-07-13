@@ -1,8 +1,8 @@
 package com.ctmhoang.userfront.service.impl;
 
-import com.ctmhoang.userfront.domain.PrimaryTransaction;
-import com.ctmhoang.userfront.domain.SavingsTransaction;
-import com.ctmhoang.userfront.domain.User;
+import com.ctmhoang.userfront.dao.PrimaryAccountDao;
+import com.ctmhoang.userfront.dao.SavingsAccountDao;
+import com.ctmhoang.userfront.domain.*;
 import com.ctmhoang.userfront.service.ITransactionService;
 import com.ctmhoang.userfront.service.IUserService;
 import com.ctmhoang.userfront.dao.PrimaryTransactionDao;
@@ -10,6 +10,8 @@ import com.ctmhoang.userfront.dao.SavingsTransactionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,6 +22,10 @@ public class TransactionServiceImpl implements ITransactionService {
   @Autowired private PrimaryTransactionDao primaryTransactionDao;
 
   @Autowired private SavingsTransactionDao savingsTransactionDao;
+
+  @Autowired private PrimaryAccountDao primaryAccountDao;
+
+  @Autowired private SavingsAccountDao savingsAccountDao;
 
   @Override
   public List<PrimaryTransaction> findPrimaryTransactions(String username) {
@@ -51,5 +57,58 @@ public class TransactionServiceImpl implements ITransactionService {
   @Override
   public void saveWithdrawDepositTransaction(SavingsTransaction savingsTransaction) {
     savingsTransactionDao.save(savingsTransaction);
+  }
+
+  @Override
+  public void betweenAccountsTransfer(
+      String from,
+      String to,
+      PrimaryAccount primaryAccount,
+      SavingsAccount savingsAccount,
+      String amount) throws Exception
+  {
+    if (from.equalsIgnoreCase("Primary") && to.equalsIgnoreCase("Savings")) {
+      primaryAccount.setAccBal(
+          primaryAccount.getAccBal().subtract(new BigDecimal(amount)));
+      savingsAccount.setAccBal(
+          savingsAccount.getAccBal().add(new BigDecimal(amount)));
+      primaryAccountDao.save(primaryAccount);
+      savingsAccountDao.save(savingsAccount);
+
+      Date date = new Date();
+
+      PrimaryTransaction primaryTransaction =
+          new PrimaryTransaction(
+                  Double.parseDouble(amount),
+                  date,
+                  "Between account transfer from " + from + " to " + to,
+                  "Transfer",
+                  "Finished",
+                  primaryAccount.getAccBal(),
+                  primaryAccount);
+      primaryTransactionDao.save(primaryTransaction);
+    } else if (from.equalsIgnoreCase("Savings") && to.equalsIgnoreCase("Primary")) {
+      primaryAccount.setAccBal(
+          primaryAccount.getAccBal().add(new BigDecimal(amount)));
+      savingsAccount.setAccBal(
+          savingsAccount.getAccBal().subtract(new BigDecimal(amount)));
+      primaryAccountDao.save(primaryAccount);
+      savingsAccountDao.save(savingsAccount);
+
+      Date date = new Date();
+
+      SavingsTransaction savingsTransaction =
+          new SavingsTransaction(
+                  Double.parseDouble(amount),
+                  date,
+                  "Between account transfer from " + from + " to " + to,
+                  "Transfer",
+                  "Finished",
+                  savingsAccount.getAccBal(),
+                  savingsAccount);
+      savingsTransactionDao.save(savingsTransaction);
+    } else {
+      throw new Exception("Invalid Transfer");
+    }
   }
 }

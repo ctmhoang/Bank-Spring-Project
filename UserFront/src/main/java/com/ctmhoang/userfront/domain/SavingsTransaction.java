@@ -35,6 +35,7 @@ public class SavingsTransaction {
       String status,
       BigDecimal availBal,
       SavingsAccount savAcc) {
+    this.amount = amount;
     this.date = date;
     this.description = description;
     this.type = type;
