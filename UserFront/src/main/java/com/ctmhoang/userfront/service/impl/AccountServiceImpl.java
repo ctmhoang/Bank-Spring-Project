@@ -1,9 +1,7 @@
 package com.ctmhoang.userfront.service.impl;
 
 import com.ctmhoang.userfront.dao.PrimaryAccountDao;
-import com.ctmhoang.userfront.dao.PrimaryTransactionDao;
 import com.ctmhoang.userfront.dao.SavingsAccountDao;
-import com.ctmhoang.userfront.dao.SavingsTransactionDao;
 import com.ctmhoang.userfront.domain.*;
 import com.ctmhoang.userfront.service.IAccountService;
 import com.ctmhoang.userfront.service.ITransactionService;
