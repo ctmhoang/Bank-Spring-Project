@@ -18,6 +18,8 @@
 - @Repository fullfill DAO
 - entityManager.persist()
 - @RequestParam
+- JSESSION
+- @Order
 
 # Thymeleaf Syntax
 
