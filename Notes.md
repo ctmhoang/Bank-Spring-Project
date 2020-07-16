@@ -20,6 +20,7 @@
 - @RequestParam
 - JSESSION -> spring create and sent by tomcat or jetty service inorder to keep the session -> set by browser -> cuz http only cannot be retrive by js when intercept
 - @Order
+-
 
 # Thymeleaf Syntax
 
@@ -66,6 +67,8 @@
 - LOG in slf4
 - [Principal class](https://stackoverflow.com/questions/37499307/whats-the-principal-in-spring-security)
 - Need to add token if enable crfs
+- @EnableGlobalMethodSecurity(prePostEnabled = true) -> give us ability to pre authorlize
+- @PreAuthorize("hasRole('ADMIN')") -> use hasRole will automatically add `ROLE_` prefix
 
 # Angular
 
