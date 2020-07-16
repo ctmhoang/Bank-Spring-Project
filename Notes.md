@@ -2,7 +2,7 @@
 
 - @SpringBootApplication (Boilterplate for Spring web application)
 - @Controller (Marked as controller)
-- @RestController (Marked as REST controller -return directly values)
+- @RestController (Marked as REST controller -return directly values) -> deserialization pass as JSON
 - @RequestMapping("Path") ("Mapping to controller to template to display information")
   - Wanna a custom [error page](https://www.baeldung.com/spring-boot-custom-error-page)
   - Return a String -> automatically get a file from templates folder
@@ -20,7 +20,8 @@
 - @RequestParam
 - JSESSION -> spring create and sent by tomcat or jetty service inorder to keep the session -> set by browser -> cuz http only cannot be retrive by js when intercept
 - @Order
--
+- @GetMapping() -> param in map url
+- StreamSupport class
 
 # Thymeleaf Syntax
 
