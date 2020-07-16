@@ -16,14 +16,10 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.loginService.logout().subscribe(
-      res => {
-        localStorage.setItem('PortalAdminHasLoggedIn', '');
-      },
-      err => console.log(err)
-    );
+    this.loginService.logout();
+    localStorage.clear();
+    location.replace('/login');
     location.reload();
-    this.router.navigate(['/login']);
   }
 
   getDisplay() {

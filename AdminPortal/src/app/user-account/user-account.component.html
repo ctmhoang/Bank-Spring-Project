@@ -1,0 +1,32 @@
+<h1>User Account Page</h1>
+
+<table id="userTable" class="table table-striped" cellspacing="0" width="100%">
+  <thead>
+  <tr>
+    <th>User Name</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Primary Account</th>
+    <th>Savings Account</th>
+    <th>Enabled</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of userList">
+    <td>{{user.usrName}}</td>
+    <td>{{user.fstName}}</td>
+    <td>{{user.lstName}}</td>
+    <td>{{user.email}}</td>
+    <td>{{user.phone}}</td>
+    <td><a (click)="onSelectPrimary(user.usrName)" style="cursor: pointer;">{{user.primAcc.accBal}}</a></td>
+    <td><a (click)="onSelectSavings(user.usrName)" style="cursor: pointer;">{{user.saveAcc.accBal}}</a></td>
+    <td>{{user.enabled}}</td>
+    <td [hidden]="user.enabled"><a (click)="enableUser(user.usrName)" style="cursor: pointer;">Enable</a></td>
+    <td [hidden]="!user.enabled"><a (click)="disableUser(user.usrName)" style="cursor: pointer;">Disable</a></td>
+  </tr>
+  </tbody>
+</table>
+

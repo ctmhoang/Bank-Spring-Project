@@ -11,5 +11,5 @@ public interface IAppointmentService {
 
   void confirmAppointment(Long id);
 
-  List<Appointment> findAll();
+  List<Appointment> fetchAll();
 }

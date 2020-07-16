@@ -3,6 +3,7 @@ package com.ctmhoang.userfront.service;
 import com.ctmhoang.userfront.domain.User;
 import com.ctmhoang.userfront.domain.security.UserRole;
 
+import java.util.List;
 import java.util.Set;
 
 public interface IUserService {
@@ -19,4 +20,10 @@ public interface IUserService {
   void save(User user);
 
   User create(User user, Set<UserRole> userRoles);
+
+  List<User> fetchAll();
+
+  void disable(String username);
+
+  void enable(String username);
 }

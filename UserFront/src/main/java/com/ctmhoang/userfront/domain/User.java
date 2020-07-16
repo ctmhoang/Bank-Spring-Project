@@ -46,6 +46,7 @@ public class User implements UserDetails {
   private List<Appointment> appointmentList;
 
   @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JsonIgnore
   private List<Recipient> recipientList;
 
   @OneToMany(mappedBy = "usr", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

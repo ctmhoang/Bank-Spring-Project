@@ -6,8 +6,9 @@ import com.ctmhoang.userfront.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class AppointmentService implements IAppointmentService {
@@ -31,11 +32,9 @@ public class AppointmentService implements IAppointmentService {
   }
 
   @Override
-  public List<Appointment> findAll()
+  public List<Appointment> fetchAll()
   {
-    List<Appointment> appointments = new LinkedList<>();
-    appointmentDao.findAll().forEach(appointments::add);
-    return appointments;
+    return StreamSupport.stream(appointmentDao.findAll().spliterator(),true).collect(Collectors.toList());
   }
 
 }
