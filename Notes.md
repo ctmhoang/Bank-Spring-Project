@@ -79,3 +79,7 @@
   -> but angular use options method (called pre-filght method) make sure spring boot allow to send credential -> but we disable cfrs in config -> need to filter the call from angular server to bypass it.
 - `|` filter format to another formate
 - `:param` pass param to path can get with activeRoute class
+
+# Aplication Properties
+
+- server.port = 8081
