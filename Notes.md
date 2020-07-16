@@ -68,7 +68,7 @@
 - [Principal class](https://stackoverflow.com/questions/37499307/whats-the-principal-in-spring-security)
 - Need to add token if enable crfs
 - @EnableGlobalMethodSecurity(prePostEnabled = true) -> give us ability to pre authorlize
-- @PreAuthorize("hasRole('ADMIN')") -> use hasRole will automatically add `ROLE_` prefix
+- @PreAuthorize("hasRole('ADMIN')") -> use hasRole will automatically add `ROLE_` prefix as class level or method level
 
 # Angular
 
@@ -76,3 +76,5 @@
 - Inorder to communicate between Angular and the server (Spring) <br>
   -> need to send a get a credential by post method in angular `'Content-Type': 'application/x-www-form-urlencoded'` <br>
   -> but angular use options method (called pre-filght method) make sure spring boot allow to send credential -> but we disable cfrs in config -> need to filter the call from angular server to bypass it.
+- `|` filter format to another formate
+- `:param` pass param to path can get with activeRoute class
