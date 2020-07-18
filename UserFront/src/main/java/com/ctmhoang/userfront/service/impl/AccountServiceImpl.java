@@ -103,7 +103,7 @@ public class AccountServiceImpl implements IAccountService
         {
             PrimaryAccount primaryAccount = user.getPrimAcc();
 
-            var tmp = primaryAccount.getAccBal().add(new BigDecimal(parseDouble));
+            var tmp = primaryAccount.getAccBal().subtract(new BigDecimal(parseDouble));
             if (tmp.compareTo(BigDecimal.ZERO) < 0) return;
             primaryAccount.setAccBal(tmp);
             primaryAccountDao.save(primaryAccount);
@@ -124,7 +124,7 @@ public class AccountServiceImpl implements IAccountService
         else if (type.equalsIgnoreCase("Savings"))
         {
             SavingsAccount savingsAccount = user.getSaveAcc();
-            var tmp = savingsAccount.getAccBal().add(new BigDecimal(parseDouble));
+            var tmp = savingsAccount.getAccBal().subtract(new BigDecimal(parseDouble));
             if (tmp.compareTo(BigDecimal.ZERO) < 0) return;
             savingsAccount.setAccBal(tmp);
             savingsAccountDao.save(savingsAccount);
