@@ -69,7 +69,9 @@ public class TransactionServiceImpl implements ITransactionService {
       String amount)
       throws Exception {
     if (from.equalsIgnoreCase("Primary") && to.equalsIgnoreCase("Savings")) {
-      primaryAccount.setAccBal(primaryAccount.getAccBal().subtract(new BigDecimal(amount)));
+      var tmp = primaryAccount.getAccBal().subtract(new BigDecimal(amount));
+      if (tmp.compareTo(BigDecimal.ZERO) < 0) return;
+      primaryAccount.setAccBal(tmp);
       savingsAccount.setAccBal(savingsAccount.getAccBal().add(new BigDecimal(amount)));
       primaryAccountDao.save(primaryAccount);
       savingsAccountDao.save(savingsAccount);
@@ -87,8 +89,11 @@ public class TransactionServiceImpl implements ITransactionService {
               primaryAccount);
       primaryTransactionDao.save(primaryTransaction);
     } else if (from.equalsIgnoreCase("Savings") && to.equalsIgnoreCase("Primary")) {
+
+      var tmp = savingsAccount.getAccBal().subtract(new BigDecimal(amount));
+      if (tmp.compareTo(BigDecimal.ZERO) < 0) return;
+      savingsAccount.setAccBal(tmp);
       primaryAccount.setAccBal(primaryAccount.getAccBal().add(new BigDecimal(amount)));
-      savingsAccount.setAccBal(savingsAccount.getAccBal().subtract(new BigDecimal(amount)));
       primaryAccountDao.save(primaryAccount);
       savingsAccountDao.save(savingsAccount);
 
