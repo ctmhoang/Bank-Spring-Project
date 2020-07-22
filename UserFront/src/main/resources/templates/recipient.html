@@ -5,6 +5,9 @@
 <header th:replace="common/header :: navbar"></header>
 <div class="container main">
     <div class="row">
+        <div class="bg-danger" th:if="${param.error}">
+            Invalid account number.
+        </div>
         <div class="col-md-6">
             <h3>Recipient Information</h3>
             <form th:action="@{/transfer/recipient/save}" method="post">

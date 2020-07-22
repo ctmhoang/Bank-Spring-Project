@@ -144,6 +144,18 @@ public class AccountServiceImpl implements IAccountService
         }
     }
 
+    @Override
+    public PrimaryAccount getPrimaryAccount(int accNum)
+    {
+        return primaryAccountDao.findByAccNum(accNum);
+    }
+
+    @Override
+    public SavingsAccount getSavingsAccount(int accNum)
+    {
+        return savingsAccountDao.findByAccNum(accNum);
+    }
+
     private int accGen()
     {
         return ++nextAccNum;

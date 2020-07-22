@@ -2,6 +2,7 @@ package com.ctmhoang.userfront.service.impl;
 
 import com.ctmhoang.userfront.dao.*;
 import com.ctmhoang.userfront.domain.*;
+import com.ctmhoang.userfront.service.IAccountService;
 import com.ctmhoang.userfront.service.ITransactionService;
 import com.ctmhoang.userfront.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class TransactionServiceImpl implements ITransactionService {
   @Autowired private SavingsAccountDao savingsAccountDao;
 
   @Autowired private RecipientDao recipientDao;
+
+  @Autowired private IAccountService accountService;
 
   @Override
   public List<PrimaryTransaction> findPrimaryTransactions(String username) {
@@ -71,6 +74,7 @@ public class TransactionServiceImpl implements ITransactionService {
     if (from.equalsIgnoreCase("Primary") && to.equalsIgnoreCase("Savings")) {
       var tmp = primaryAccount.getAccBal().subtract(new BigDecimal(amount));
       if (tmp.compareTo(BigDecimal.ZERO) < 0) return;
+
       primaryAccount.setAccBal(tmp);
       savingsAccount.setAccBal(savingsAccount.getAccBal().add(new BigDecimal(amount)));
       primaryAccountDao.save(primaryAccount);
@@ -143,11 +147,17 @@ public class TransactionServiceImpl implements ITransactionService {
       String amount,
       PrimaryAccount primAcc,
       SavingsAccount saveAcc) {
+
+    var date = new Date();
+
     if (type.equalsIgnoreCase("Primary")) {
+
+      var tmp = primAcc.getAccBal().subtract(new BigDecimal(amount));
+      if (tmp.compareTo(BigDecimal.ZERO) < 0) return;
+
       primAcc.setAccBal(primAcc.getAccBal().subtract(new BigDecimal(amount)));
       primaryAccountDao.save(primAcc);
 
-      var date = new Date();
       var primTrans =
           new PrimaryTransaction(
               Double.parseDouble(amount),
@@ -160,10 +170,13 @@ public class TransactionServiceImpl implements ITransactionService {
 
       primaryTransactionDao.save(primTrans);
     } else if (type.equalsIgnoreCase("Savings")) {
+
+      var tmp = saveAcc.getAccBal().subtract(new BigDecimal(amount));
+      if (tmp.compareTo(BigDecimal.ZERO) < 0) return;
+
       saveAcc.setAccBal(saveAcc.getAccBal().subtract(new BigDecimal(amount)));
       savingsAccountDao.save(saveAcc);
 
-      var date = new Date();
       var saveTrans =
           new PrimaryTransaction(
               Double.parseDouble(amount),
@@ -175,6 +188,42 @@ public class TransactionServiceImpl implements ITransactionService {
               primAcc);
 
       primaryTransactionDao.save(saveTrans);
+    }
+
+    //get recipient account
+    int accNum = Integer.parseInt(recipient.getAccountNum());
+    if(accNum % 2 == 0){
+      PrimaryAccount account = accountService.getPrimaryAccount(accNum);
+      account.setAccBal(account.getAccBal().add(new BigDecimal(amount)));
+      var receiveBill =
+              new PrimaryTransaction(
+                      Double.parseDouble(amount),
+                      date,
+                      "Transfer from recipient " + recipient.getName(),
+                      "Transfer",
+                      "Finished",
+                      account.getAccBal(),
+                      account);
+
+      receiveBill.setAvailBal(account.getAccBal());
+      primaryAccountDao.save(account);
+      primaryTransactionDao.save(receiveBill);
+    }
+    else {
+      SavingsAccount account = accountService.getSavingsAccount(accNum);
+      account.setAccBal(account.getAccBal().add(new BigDecimal(amount)));
+      var receiveBill =
+              new SavingsTransaction(
+                      Double.parseDouble(amount),
+                      date,
+                      "Transfer from recipient " + recipient.getName(),
+                      "Transfer",
+                      "Finished",
+                      account.getAccBal(),
+                      account);
+      receiveBill.setAvailBal(account.getAccBal());
+      savingsAccountDao.save(account);
+      savingsTransactionDao.save(receiveBill);
     }
   }
 }

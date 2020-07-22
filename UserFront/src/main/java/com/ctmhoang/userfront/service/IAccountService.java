@@ -5,12 +5,17 @@ import com.ctmhoang.userfront.domain.SavingsAccount;
 
 import java.security.Principal;
 
-public interface IAccountService {
-  PrimaryAccount createPrimaryAccount();
+public interface IAccountService
+{
+    PrimaryAccount createPrimaryAccount();
 
-  SavingsAccount createSavingsAccount();
+    SavingsAccount createSavingsAccount();
 
-  void deposit(String type, double parseDouble, Principal principal);
+    void deposit(String type, double parseDouble, Principal principal);
 
-  void withdraw(String type, double parseDouble, Principal principal);
+    void withdraw(String type, double parseDouble, Principal principal);
+
+    PrimaryAccount getPrimaryAccount(int accNum);
+
+    SavingsAccount getSavingsAccount(int accNum);
 }

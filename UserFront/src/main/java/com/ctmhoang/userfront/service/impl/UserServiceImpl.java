@@ -95,7 +95,7 @@ public class UserServiceImpl implements IUserService
     @Override
     public List<User> fetchAll()
     {
-        return StreamSupport.stream(userDao.findAll().spliterator(),true).collect(Collectors.toUnmodifiableList());
+        return StreamSupport.stream(userDao.findAll().spliterator(), true).collect(Collectors.toUnmodifiableList());
     }
 
     @Override
@@ -114,5 +114,21 @@ public class UserServiceImpl implements IUserService
         var tmp = userDao.findByUsrName(username);
         tmp.setEnabled(true);
         userDao.save(tmp);
+    }
+
+    @Override
+    public boolean isAccNumExisted(String accNum)
+    {
+        try
+        {
+            int accNumParsed = Integer.parseInt(accNum);
+            if (accNumParsed % 2 == 0)
+                return accountService.getPrimaryAccount(accNumParsed) != null;
+            else
+                return accountService.getSavingsAccount(accNumParsed) != null;
+        } catch (RuntimeException e)
+        {
+            return false;
+        }
     }
 }

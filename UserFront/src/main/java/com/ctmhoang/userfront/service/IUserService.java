@@ -26,4 +26,6 @@ public interface IUserService {
   void disable(String username);
 
   void enable(String username);
+
+  boolean isAccNumExisted(String accNum);
 }
